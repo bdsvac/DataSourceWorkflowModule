@@ -5,7 +5,6 @@ using Sitecore.Diagnostics;
 using Sitecore.Pipelines.GetPageEditorNotifications;
 using Sitecore.Shell.Framework.CommandBuilders;
 
-
 namespace HI.Shared.DataSourceWorkflowModule.Pipeline.GetPageEditorNotifications
 {
     public class GetDataSourceWorkflowNotification : GetPageEditorNotificationsProcessor
@@ -19,7 +18,10 @@ namespace HI.Shared.DataSourceWorkflowModule.Pipeline.GetPageEditorNotifications
             foreach (var dataSourceArguments in arguments.ContextItem.GetAllUniqueDataSourceItems().Select(ds => new GetPageEditorNotificationsArgs(ds)))
             {
                 GetNotifications(dataSourceArguments);
-                arguments.Notifications.AddRange(dataSourceArguments.Notifications);
+                foreach (var n in dataSourceArguments.Notifications)
+                {
+                    arguments.Notifications.Add(n);
+                }
             }
         }
 
